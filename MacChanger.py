@@ -1,8 +1,8 @@
+# final version
 import subprocess
 import optparse
-
+import re
 def get_arguments():
-    #create obj of OptionParser class
     parser = optparse.OptionParser()
 
     parser.add_option("-i","--interface", dest="interface",help="Interface to change its MAC address")
@@ -25,10 +25,34 @@ def change_mac(interface , new_mac):
     subprocess.call(["ifconfig", interface , "up"])
 
 
+def get_current_mac(interface):
+    ifconfig_result = str(subprocess.check_output(["ifconfig",interface]))
+
+    regex_result= re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w",ifconfig_result)
+    # print(regex_result.group(0))  
+
+    if regex_result:
+        return regex_result.group(0)
+    else:
+        print("[-] This interface doesn't have MAC address :(")
+        return None
 
 val = get_arguments()
+current_mac = get_current_mac(val.interface)
+print(f"Current MAC addresss is : {current_mac} ")
 
 change_mac(val.interface, val.new_mac)
+
+current_mac = get_current_mac(val.interface)
+
+if current_mac == val.new_mac:
+    print("[+] MAC address changed :)")
+    print(f"Current MAC addresss is : {current_mac} ")
+else:
+    print("[-] MAC address didn't get changed :(")
+    print(f"Current MAC addresss is : {current_mac} ")
+
+
 
 
 
