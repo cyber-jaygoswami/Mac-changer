@@ -1,10 +1,10 @@
 
 # MAC Changer
 
-This tool for change MAC address on os level.
+This tool is for change MAC address on os level.
 You can use this tool in your linux os to change MAC
 address.
-I build this tool by following some tutorails.
+I build this tool by following some tutorials.
 
 ## Usage/Examples
 
